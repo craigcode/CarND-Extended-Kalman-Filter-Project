@@ -77,8 +77,7 @@ void KalmanFilter::MeasurementUpdate(const VectorXd &y) {
     MatrixXd Ht = H_.transpose();
     MatrixXd S = H_ * P_ * Ht + R_;
     MatrixXd Si = S.inverse();
-    MatrixXd PHt = P_ * Ht;
-    MatrixXd K = PHt * Si;
+    MatrixXd K = P_ * Ht * Si;
     
     x_ = x_ + (K * y);
     MatrixXd I = MatrixXd::Identity(x_.size(),x_.size());

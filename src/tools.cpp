@@ -1,6 +1,8 @@
 #include <iostream>
 #include "tools.h"
 
+#define DIVBYZERO_THRESHOLD 0.0001
+
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
 using std::vector;
@@ -56,7 +58,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
     MatrixXd Hj(3,4);
 
     //check division by zero
-    if(fabs(c1) < 0.0001){
+    if(fabs(c1) < DIVBYZERO_THRESHOLD){
         cout << "CalculateJacobian () - Error: Division by Zero" << endl;
         return Hj;
     }

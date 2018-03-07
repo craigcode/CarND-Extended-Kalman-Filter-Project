@@ -96,12 +96,17 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
             double rho_dot = measurement_pack.raw_measurements_[2];
             
             //convert polar to cartesian coords
-            double x = rho * cos(phi);
-            double y = rho * sin(phi);
+            double px = rho * cos(phi);
+            double py = rho * sin(phi);
+            
+            /*
+             while we can perfectly calculate px and py from phi, we cannot compute vx and vy from phi. We will need
+             yaw (which is introduced in UKF) to compute vx and vy. So even from radar measurement, we can only compute px and py.
+            */
             double vx = rho_dot * cos(phi);
             double vy = rho_dot * sin(phi);
-
-            ekf_.x_ << x,y,vx,vy;
+            
+            ekf_.x_ << px,py,0,0;
 
         }
         else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
